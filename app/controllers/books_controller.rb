@@ -12,6 +12,9 @@ class BooksController < ApplicationController
   end
 
   def edit
+    #has_many belongs_to에 의해 books_controler의 edit 액션을 호출하면
+    #field_for 메서드로 book과 관련된 모든 post가edit 대상이 된다.
+    #그래서 edit 페이지에서 field_for 메서드로 지정된 post를 제외함.
   end
 
   def new
@@ -38,7 +41,8 @@ class BooksController < ApplicationController
     post = @book.posts.new(content: book_params[:posts_attributes]['0'][:content])
     # posts_controller에서 생성할 때는(아니 꼭 그런 건 아닌 거 같애... 이런 식으로도 가능하다 정도)
     # Post.create(postable: Book.first, content: "testing!")
-    post.user_id = book_params[:posts_attributes]['0'][:user_id]
+    #post.user_id = book_params[:posts_attributes]['0'][:user_id]
+    post.user_id = current_user.id
     # current_user.id로 해도 상관 없는거 아니?
     post.save
 
@@ -138,7 +142,7 @@ class BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:title, :contents, :isbn, :publisher, posts_attributes: [:user_id, :content])
+    params.require(:book).permit(:title, :contents, :isbn, :publisher, posts_attributes: [ :content ])
     #params.require(:book).permit(:title, :contents, :url, :isbn, :datetime, :authors, :publisher, :translators, :thumbnail, posts_attributes: [:user_id, :content])
   end
 end

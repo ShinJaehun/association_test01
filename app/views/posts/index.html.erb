@@ -6,6 +6,8 @@
   <thead>
     <tr>
       <th>User</th>
+      <th>Postable Type</th>
+      <th>Postable</th>
       <th>Content</th>
       <th colspan="3"></th>
     </tr>
@@ -15,6 +17,8 @@
     <% @posts.each do |post| %>
       <tr>
         <td><%= post.user.name %></td>
+        <td><%= post.postable_type %></td>
+        <td><%= Book.find(post.postable_id).title %></td>
         <td><%= post.content %></td>
         <td><%= link_to 'Show', post %></td>
 
@@ -34,4 +38,7 @@
 </p>
 <p>
   <%= link_to 'New Book', new_book_path %>
+</p>
+<p>
+  <%= link_to 'Books', books_path %>
 </p>

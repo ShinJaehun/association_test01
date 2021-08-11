@@ -20,7 +20,7 @@
   </div>
 
   <%= form.fields_for :posts do |posts_field| %>
-    <%= posts_field.hidden_field :user_id, value: current_user.id %>
+    <!-- has_many belongs_to에 의해 books_controler의 edit 액션을 호출하면 book과 관련된 모든 post가 올라온다. -->
     <%= posts_field.text_area :content %>
   <% end %>
 

@@ -1,15 +1,29 @@
-<%= form_for [postable, Post.new] do |form| %>
+<!-- books/show 페이지에서 posts form을 호출할 때 사용,
+posts/new 페이지에서는 postable이 존재하지 않아서 오류 발생 -->
+<%#= form_for [postable, Post.new] do |form| %>
+  <!-- posts_controller에서 post create하기 -->
   <%#= form.hidden_field :postable_type, value: "Book" %>
   <!-- 이런 형태로 작성할 수도 있는데 좀 더 generic하게 작성하려면... -->
-
+<!--
   <div class="form-group">
     <div class="field">
-      <%= form.label :content %>
-      <%= form.text_area :content %>
+      <%#= form.label :content %>
+      <%#= form.text_area :content %>
     </div>
 
     <div class="actions">
-      <%= form.submit %>
+      <%#= form.submit %>
     </div>
+  </div>
+<%# end %>
+-->
+<%= form_for(@post) do |form| %>
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.text_area :content %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
   </div>
 <% end %>

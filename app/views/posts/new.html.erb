@@ -1,5 +1,7 @@
   <h1>New Post 이게 지금은 동작하지 않습니다요.</h1>
 
-<%= render 'form', post: @post %>
-
+<%#= render 'form', post: @post %>
+<%#= render partial: 'posts/form', locals: { postable: @post.postable } %>
+<!-- 생각해보면 당연하잖아 new post에 연관된 postable이 어디있니?
+posts new 페이지에서 지금 존재하는 book 중에 하나를 잡고 post하게 만들면 되긴 하겠네... -->
 <%= link_to 'Back', posts_path %>

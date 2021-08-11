@@ -11,12 +11,21 @@
 </p>
 
 <p>
+  <strong>ISBN:</strong>
+  <%= @book.isbn %>
+</p>
+
+<p>
   <strong>Publisher:</strong>
   <%= @book.publisher %>
 </p>
 
+<p>
+  <strong>책짹</strong>
 <%= render partial: "posts/posts", locals: { postable: @book } %>
-<%= render partial: "posts/form", locals: { postable: @book } %>
+<%#= render partial: "posts/form", locals: { postable: @book } %>
+<!-- 이렇게 해서 넘길려면 posts form이 postable과 post를 함께 받을 수 있게 해야 한다. -->
+</p>
 
 <% if can? :manage, @book %>
   <%= link_to 'Edit', edit_book_path(@book) %> |

@@ -5,6 +5,16 @@
   <%= @post.user.name %>
 </p>
 
+<% if @post.postable_type == 'Book'%>
+  <p><strong>Title: </strong><%= @post.postable.title %></p>
+  <p><strong>Contents: </strong><%= @post.postable.contents %></p>
+  <p><strong>ISBN: </strong><%= @post.postable.isbn %></p>
+  <p><strong>Publisher: </strong><%= @post.postable.publisher %></p>
+<%# elsif %>
+<% else %>
+  <h1>이건 책이 아니여...</h1>
+<% end %>
+
 <p>
   <strong>Content:</strong>
   <%= @post.content %>
