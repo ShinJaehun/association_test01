@@ -23,19 +23,14 @@ class PostsController < ApplicationController
   end
 
   # POST /posts or /posts.json
-#  def create
-#    @post = current_user.posts.new(post_params)
-#
-#    respond_to do |format|
-#      if @post.save
-#        format.html { redirect_to @post, notice: "Post was successfully created." }
-#        format.json { render :show, status: :created, location: @post }
-#      else
-#        format.html { render :new, status: :unprocessable_entity }
-#        format.json { render json: @post.errors, status: :unprocessable_entity }
-#      end
-#    end
-#  end
+  def create
+    #@post = current_user.posts.new(post_params)
+    @post = @postable.posts.new(post_params)
+    @post.user = current_user
+
+    @post.save
+    redirect_to @postable, notice: "Your post was successfully posted."
+  end
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update

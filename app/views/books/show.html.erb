@@ -16,6 +16,7 @@
 </p>
 
 <%= render partial: "posts/posts", locals: { postable: @book } %>
+<%= render partial: "posts/form", locals: { postable: @book } %>
 
 <% if can? :manage, @book %>
   <%= link_to 'Edit', edit_book_path(@book) %> |

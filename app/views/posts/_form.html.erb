@@ -1,22 +1,15 @@
-<%= form_with(model: post) do |form| %>
-  <% if post.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+<%= form_for [postable, Post.new] do |form| %>
+  <%#= form.hidden_field :postable_type, value: "Book" %>
+  <!-- 이런 형태로 작성할 수도 있는데 좀 더 generic하게 작성하려면... -->
 
-      <ul>
-        <% post.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+  <div class="form-group">
+    <div class="field">
+      <%= form.label :content %>
+      <%= form.text_area :content %>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= form.label :content %>
-    <%= form.text_area :content %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+    <div class="actions">
+      <%= form.submit %>
+    </div>
   </div>
 <% end %>
