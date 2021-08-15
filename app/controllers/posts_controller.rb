@@ -7,6 +7,9 @@ class PostsController < ApplicationController
   # GET /posts or /posts.json
   def index
     @posts = Post.all
+    #이렇게 하면 안돼?
+#    @message = Message.new
+#    @post = @message.posts.new
   end
 
   # GET /posts/1 or /posts/1.json
@@ -25,16 +28,17 @@ class PostsController < ApplicationController
   end
 
   # POST /posts or /posts.json
-#  def create
-#    #@post = current_user.posts.new(post_params)
-#    #posts_controller에서 generic하게 create하려면 @postable을 set_postable로 받아와야 함
-#    #이걸 controllers/books/posts_controller.rb에서 먼저 한다.
-#    #books/show 페이지에서 create 호출하여 @post 생성
-#    @post = @postable.posts.new(post_params)
-#    @post.user = current_user
-#    @post.save
-#    redirect_to @postable, notice: "Your post was successfully posted."
-#  end
+  def create
+    puts 'posts_controller/create@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2'
+    #@post = current_user.posts.new(post_params)
+    #posts_controller에서 generic하게 create하려면 @postable을 set_postable로 받아와야 함
+    #이걸 controllers/books/posts_controller.rb에서 먼저 한다.
+    #books/show 페이지에서 create 호출하여 @post 생성
+    @post = @postable.posts.new(post_params)
+    @post.user = current_user
+    @post.save
+    redirect_to @postable, notice: "Your post was successfully posted."
+  end
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update

@@ -1,10 +1,10 @@
 <!-- books/show 페이지에서 posts form을 호출할 때 사용,
 posts/new 페이지에서는 postable이 존재하지 않아서 오류 발생 -->
-<%#= form_for [postable, Post.new] do |form| %>
+<%#= form_for [postable, @post] do |form| %>
   <!-- posts_controller에서 post create하기 -->
   <%#= form.hidden_field :postable_type, value: "Book" %>
   <!-- 이런 형태로 작성할 수도 있는데 좀 더 generic하게 작성하려면... -->
-<!--
+  <!--
   <div class="form-group">
     <div class="field">
       <%#= form.label :content %>
@@ -17,12 +17,27 @@ posts/new 페이지에서는 postable이 존재하지 않아서 오류 발생 --
   </div>
 <%# end %>
 -->
-<%= form_for(@post) do |form| %>
+
+<!--
+<%#= form_for(@post) do |form| %>
   <div class="field">
-    <%= form.label :content %>
-    <%= form.text_area :content %>
+    <%#= form.label :content %>
+    <%#= form.text_area :content %>
   </div>
 
+  <div class="actions">
+    <%#= form.submit %>
+  </div>
+  <%# end %>
+-->
+
+<%= form_with model: postable do |form| %>
+  <!-- 결국 모든 문제는 form 때문이었음... ->
+  <!-- 지금 이렇게 하면 message만 받을 수 있는 상태잖아... generic하게 받으려먼 어떻게 해야하나? -->
+  <%= form.file_field :images %>
+  <%= form.fields_for :posts, Post.new do |post_form| %>
+    <%= post_form.text_area :content %>
+  <% end %>
   <div class="actions">
     <%= form.submit %>
   </div>

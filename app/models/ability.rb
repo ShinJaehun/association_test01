@@ -13,6 +13,11 @@ class Ability
 
       can :manage, Book #임시
       can :manage, Post, user_id: user.id
+      #can :manage, Message, user_id: user.id
+      #야이 븅시나 Message랑 user 관계가 없는 상태인데...
+      #이거 오류 찾느라고 힘드렀짜나!
+      can :manage, Message
+
       can :update, User, id: user.id
 
     end

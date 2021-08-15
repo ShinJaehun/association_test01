@@ -23,6 +23,10 @@ class BooksController < ApplicationController
   end
 
   def create
+    puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+    puts book_params
+    puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+
     unless @book = Book.find_by(isbn: book_params[:isbn])
       #@book = Book.new(book_params)
       #@book에 book_params로 부터 넘어온 것을 저장하는 과정은 필요 없음(위에서 다 함)
@@ -48,74 +52,6 @@ class BooksController < ApplicationController
 
     redirect_to root_path
   end
-
-#  def create
-#    unless @book = Book.find_by(isbn: book_params[:isbn])
-#
-#      thumbnail_url = book_params[:thumbnail]
-#
-#      # puts "thumbnail_url : " + thumbnail_url
-#      unless thumbnail_url.to_s.empty?
-#        # thumbnail_path = URI.unescape(thumbnail_url.match(/^http.+?(http.+?)%3F/)[1].to_s)
-#        # %3F는 '?'를 의미
-#
-#        # puts "-----------------book_thumbnail-------------------------"
-#        thumbnail_url_unescape = URI.unescape(thumbnail_url)
-#        # puts "thumbnail_url_unescape : " + thumbnail_url_unescape
-#
-#        # thumbnail_url_unescape_regex = thumbnail_url_unescape.match(/^http.+?(http.+?)\?/)[1].to_s
-#        # puts "thumbnail_url_unescape.nil? : " + (thumbnail_url_unescape.nil?).to_s
-#        # puts "thumbnail_url_unescape_regex.nil? : " + (thumbnail_url_unescape.match(/^http.+?(http.+?)\?/).nil?).to_s
-#
-#        if !(thumbnail_url_unescape.match(/^http.+?(http.+?)\?/).nil?)
-#        # https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http://t1.daumcdn.net/lbook/image/1097174?timestamp=20210114144331
-#        # fname= 이후의 http://부터 ?timestamp 전까지 추출
-#          thumbnail_path = thumbnail_url_unescape.match(/^http.+?(http.+?)\?/)[1].to_s
-#        elsif !(thumbnail_url_unescape.match(/^http.+?(http.+?)$/).nil?)
-#        # https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http://t1.daumcdn.net/lbook/image/3744671
-#        # 뒤에 timestamp가 붙지 않는 녀석도 있음...  이나중 탁구부;;
-#          thumbnail_path = thumbnail_url_unescape.match(/^http.+?(http.+?)$/)[1].to_s
-#        else
-#          puts "큰일났어... 또 새로운 녀석이 나타났나봐...ㅠㅠ"
-#          thumbnail_path = nil
-#        end
-#
-#        # puts "thumbnail_path : " + thumbnail_path
-#        # puts "-----------------book_thumbnail-------------------------"
-#
-#      end
-#
-#      @book = Book.create(
-#        title: CGI.unescapeHTML(book_params[:title]),
-#        contents: CGI.unescapeHTML(book_params[:contents]),
-#        url: book_params[:url],
-#        isbn:  book_params[:isbn],
-#        datetime: book_params[:datetime],
-#        authors: book_params[:authors],
-#        publisher: book_params[:publisher],
-#        translators: book_params[:transaltors],
-#        thumbnail:  thumbnail_path
-#      )
-#    end
-#
-##    puts "-----------------------book_params-----------------------"
-##    puts book_params
-##    puts "-----------------------book_params-----------------------"
-##
-##    puts "-----------------------book_params[:posts_attributes]-----------------------"
-##    puts book_params[:posts_attributes]
-##    puts "-----------------------book_params[:posts_attributes]-----------------------"
-##
-##    puts "-----------------------book_params[:posts_attributes]['0']-----------------------"
-##    puts book_params[:posts_attributes]['0']
-##    puts "-----------------------book_params[:posts_attributes]['0']-----------------------"
-#
-#    post = @book.posts.new(content: book_params[:posts_attributes]['0'][:content])
-#    post.user_id = book_params[:posts_attributes]['0'][:user_id]
-#    post.save
-#
-#    redirect_to root_path
-#  end
 
   def update
     respond_to do |format|

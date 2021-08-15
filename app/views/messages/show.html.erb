@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>메시지</strong>
+<%= render partial: "posts/posts", locals: { postable: @message } %>
+<%= render partial: "posts/form", locals: { postable: @message } %>
+<!-- 이렇게 해서 넘길려면 posts form이 postable과 post를 함께 받을 수 있게 해야 한다. -->
+</p>
+
+<% if can? :manage, @message %>
+  <%= link_to 'Edit', edit_message_path(@message) %> |
+<% end %>
+<%= link_to 'Back', messages_path %>

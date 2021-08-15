@@ -1,0 +1,10 @@
+<%= form_for(@message) do |form| %>
+
+  <%= form.fields_for :posts do |posts_field| %>
+    <%= posts_field.text_area :content %>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

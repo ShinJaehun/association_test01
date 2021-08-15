@@ -18,7 +18,15 @@
       <tr>
         <td><%= post.user.name %></td>
         <td><%= post.postable_type %></td>
-        <td><%= Book.find(post.postable_id).title %></td>
+
+        <% if post.postable_type == 'Book' %>
+          <td><%= Book.find(post.postable_id).title %></td>
+        <% elsif post.postable_type == 'Message' %>
+          <td>메시지</td>
+        <% else %>
+          <td>이게 대체 뭐니</td>
+        <% end %>
+
         <td><%= post.content %></td>
         <td><%= link_to 'Show', post %></td>
 
@@ -41,4 +49,14 @@
 </p>
 <p>
   <%= link_to 'Books', books_path %>
+</p>
+<p>
+  <%#= link_to 'New Message', new_message_path %>
+</p>
+<p>
+  <strong>Message</strong>
+  <%#= render partial: "posts/form", locals: { postable: @message } %>
+  <%#= render partial: "form", locals: { postable: @message } %>
+  <%= render partial: "form", locals: { postable: Message.new } %>
+  <!-- 결국 모든 문제는 form 때문이었음... -->
 </p>
