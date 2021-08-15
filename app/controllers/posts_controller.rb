@@ -7,9 +7,6 @@ class PostsController < ApplicationController
   # GET /posts or /posts.json
   def index
     @posts = Post.all
-    #이렇게 하면 안돼?
-#    @message = Message.new
-#    @post = @message.posts.new
   end
 
   # GET /posts/1 or /posts/1.json
@@ -55,6 +52,8 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
+    # post가 삭제되어도 book은 삭제 안됨
+    # 하지만 post가 삭제되면 message는 삭제되어야 함...
     @post.destroy
     respond_to do |format|
       format.html { redirect_to posts_url, notice: "Post was successfully destroyed." }

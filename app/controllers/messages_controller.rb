@@ -10,15 +10,30 @@ class MessagesController < ApplicationController
 #  def edit
 #  end
 
-  def new
-    @message = Message.new
-    @message.posts.new
-  end
+#  def new
+#    @message = Message.new
+#    @message.posts.new
+#  end
 
   def create
+    puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+    puts message_params
+    puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+
     @message = Message.create(images: message_params[:images])
     if @message.valid?
-      post = @message.posts.new(content: message_params[:posts_attributes]['0'][:content])
+      #post = @message.posts.new(content: message_params[:posts_attributes]['0'][:content])
+      # has_many일 때
+      #post = @message.post.new(content: message_params[:post_attributes][:content])
+      # has_one일 때 : 이게 될 줄 알았는데 안된다. nil-class/no method of new
+      # 그래서 보기 싫지만 postable_type과 postable_id를 직접 입력(이렇게 하면 성공함)
+      #post = Post.new(content: message_params[:post_attributes][:content])
+      #post.postable_type = 'Message'
+      #post.postable_id = @message.id
+
+      post = @message.build_post(content: message_params[:post_attributes][:content])
+      # 헐... auto-generated-methods 이거 참조....
+      # https://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html
       post.user_id = current_user.id
 
       if post.save
@@ -43,9 +58,11 @@ class MessagesController < ApplicationController
 #      end
 #    end
 #  end
-#
+
 #  def destroy
-#    @Message.destroy
+#    #@message 삭제하면 함께 post도 삭제되어야 하고... 
+#    #@post 삭제할 때 message도 함께 삭제되어야 함 
+#    @message.destroy
 #    respond_to do |format|
 #      format.html { redirect_to posts_url, notice: "Message was successfully destroyed." }
 #      format.json { head :no_content }
@@ -59,6 +76,9 @@ class MessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(posts_attributes: [ :content ], images: [] )
+    #params.require(:message).permit(images: [], posts_attributes: [ :content ])
+    # has_many일 때
+    params.require(:message).permit(images: [], post_attributes: [ :content ])
+    # has_one일 때
   end
 end

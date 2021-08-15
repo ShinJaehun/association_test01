@@ -10,9 +10,12 @@
   <p><strong>Contents: </strong><%= @post.postable.contents %></p>
   <p><strong>ISBN: </strong><%= @post.postable.isbn %></p>
   <p><strong>Publisher: </strong><%= @post.postable.publisher %></p>
-<%# elsif %>
+<% elsif @post.postable_type == 'Message' %>
+  <% @post.postable.images.each do |image| %>
+    <%= image_tag(image) %>
+  <% end %>
 <% else %>
-  <h1>이건 책이 아니여...</h1>
+  <h1>이건 책도 메시지도 아니여...</h1>
 <% end %>
 
 <p>

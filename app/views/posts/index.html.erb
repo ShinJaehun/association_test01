@@ -57,6 +57,6 @@
   <strong>Message</strong>
   <%#= render partial: "posts/form", locals: { postable: @message } %>
   <%#= render partial: "form", locals: { postable: @message } %>
-  <%= render partial: "form", locals: { postable: Message.new } %>
+  <%= render partial: "messages/form", locals: { postable: Message.new } %>
   <!-- 결국 모든 문제는 form 때문이었음... -->
 </p>

@@ -1,22 +1,21 @@
 <!-- books/show 페이지에서 posts form을 호출할 때 사용,
 posts/new 페이지에서는 postable이 존재하지 않아서 오류 발생 -->
-<%#= form_for [postable, @post] do |form| %>
+<%= form_for [postable, Post.new] do |form| %>
+  <!-- 이러한 형태의 form_for는 books/show에서 있더라도 post_controller에서 동작함 -->
   <!-- posts_controller에서 post create하기 -->
   <%#= form.hidden_field :postable_type, value: "Book" %>
   <!-- 이런 형태로 작성할 수도 있는데 좀 더 generic하게 작성하려면... -->
-  <!--
   <div class="form-group">
     <div class="field">
-      <%#= form.label :content %>
-      <%#= form.text_area :content %>
+      <%= form.label :content %>
+      <%= form.text_area :content %>
     </div>
 
     <div class="actions">
-      <%#= form.submit %>
+      <%= form.submit %>
     </div>
   </div>
-<%# end %>
--->
+<% end %>
 
 <!--
 <%#= form_for(@post) do |form| %>
@@ -30,15 +29,17 @@ posts/new 페이지에서는 postable이 존재하지 않아서 오류 발생 --
   </div>
   <%# end %>
 -->
-
-<%= form_with model: postable do |form| %>
+<%#= form_with model: postable do |form| %>
+  <!-- 이렇게 하면 postable controller의 create 액션이 동작함 -->
   <!-- 결국 모든 문제는 form 때문이었음... ->
   <!-- 지금 이렇게 하면 message만 받을 수 있는 상태잖아... generic하게 받으려먼 어떻게 해야하나? -->
-  <%= form.file_field :images %>
-  <%= form.fields_for :posts, Post.new do |post_form| %>
-    <%= post_form.text_area :content %>
-  <% end %>
+
+  <%#= form.fields_for :posts, Post.new do |post_form| %>
+    <%#= post_form.text_area :content %>
+  <%# end %>
+  <!--
   <div class="actions">
-    <%= form.submit %>
+    <%#= form.submit %>
   </div>
-<% end %>
+  -->
+<%# end %>

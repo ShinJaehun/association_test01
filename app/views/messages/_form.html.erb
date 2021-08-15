@@ -1,9 +1,10 @@
-<%= form_for(@message) do |form| %>
-
-  <%= form.fields_for :posts do |posts_field| %>
-    <%= posts_field.text_area :content %>
+<%= form_with model: postable do |form| %>
+  <!-- 결국 모든 문제는 form 때문이었음... ->
+  <!-- 지금 이렇게 하면 message만 받을 수 있는 상태잖아... generic하게 받으려먼 어떻게 해야하나? -->
+  <%= form.file_field :images, multiple: true %>
+  <%= form.fields_for :post, Post.new do |post_form| %>
+    <%= post_form.text_area :content %>
   <% end %>
-
   <div class="actions">
     <%= form.submit %>
   </div>
