@@ -1,9 +1,9 @@
 class Messages::PostsController < PostsController
   before_action :set_postable
 
-  def create
-    puts 'messages/posts_controller.rb create@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
-  end
+#  def create
+#    puts 'messages/posts_controller.rb create@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@'
+#  end
 
   private
 

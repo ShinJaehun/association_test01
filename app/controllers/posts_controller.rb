@@ -27,6 +27,10 @@ class PostsController < ApplicationController
   # POST /posts or /posts.json
   def create
     puts 'posts_controller/create@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2'
+    puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+    puts post_params
+    puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+
     #@post = current_user.posts.new(post_params)
     #posts_controller에서 generic하게 create하려면 @postable을 set_postable로 받아와야 함
     #이걸 controllers/books/posts_controller.rb에서 먼저 한다.
@@ -54,6 +58,9 @@ class PostsController < ApplicationController
   def destroy
     # post가 삭제되어도 book은 삭제 안됨
     # 하지만 post가 삭제되면 message는 삭제되어야 함...
+    if @post.postable_type == 'Message'
+      @post.postable.destroy
+    end
     @post.destroy
     respond_to do |format|
       format.html { redirect_to posts_url, notice: "Post was successfully destroyed." }
