@@ -71,6 +71,17 @@ class BooksController < ApplicationController
     end
   end
 
+#  def create_in_show
+#    # 이렇게 book 페이지 내에서 post(index와 show에서)는
+#    # 모두 books_controller에서 처리하게 만들고 싶은데
+#    # 생각보다 custom 페이지/custom 동작을 처리하는게 쉽지가 않아서 포기함.
+#    puts '이게 동작하니?'
+#    post = @book.posts.new(post_params)
+#    post.user = current_user
+#    post.save
+#    redirect_to @book, notice: "Your post was successfully posted."
+#  end
+
   private
 
   def set_book

@@ -7,6 +7,7 @@ class PostsController < ApplicationController
   # GET /posts or /posts.json
   def index
     @posts = Post.all
+    @post = Post.new
   end
 
   # GET /posts/1 or /posts/1.json
@@ -26,6 +27,7 @@ class PostsController < ApplicationController
 
   # POST /posts or /posts.json
   def create
+    # 지금 posts create는 books show 페이지에서만 처리하고 있음.(messages는 배제)
     puts 'posts_controller/create@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2'
     puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
     puts post_params

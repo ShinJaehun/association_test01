@@ -1,17 +1,27 @@
 <h1>Editing Post</h1>
 
 <% if @post.postable_type == 'Book'%>
+  <h1>이건 책...</h1>
   <p><strong>Title: </strong><%= @post.postable.title %></p>
   <p><strong>Contents: </strong><%= @post.postable.contents %></p>
   <p><strong>ISBN: </strong><%= @post.postable.isbn %></p>
   <p><strong>Publisher: </strong><%= @post.postable.publisher %></p>
-<%# elsif %>
+<% elsif @post.postable_type == 'Message' %>
+  <h1>이건 메시지...</h1>
 <% else %>
-  <h1>이건 책이 아니여...</h1>
+  <h1>이건 책도 메시지도 이 아니여...</h1>
 <% end %>
 
+<%= form_for(@post) do |form| %>
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.text_area :content %>
+  </div>
 
-<%= render 'form', post: @post %>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
 
 <%= link_to 'Show', @post %> |
 <%= link_to 'Back', posts_path %>

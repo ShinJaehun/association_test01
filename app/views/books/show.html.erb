@@ -23,8 +23,19 @@
 <p>
   <strong>책짹</strong>
 <%= render partial: "posts/posts", locals: { postable: @book } %>
-<%= render partial: "posts/form", locals: { postable: @book } %>
+<%#= render partial: "posts/form", locals: { postable: @book } %>
 <!-- 이렇게 해서 넘길려면 posts form이 postable과 post를 함께 받을 수 있게 해야 한다. -->
+
+  <%= form_with(model: [@book, Post.new]) do |form| %>
+    <div class="field">
+      <%= form.label :content %>
+      <%= form.text_area :content %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>
 </p>
 
 <% if can? :manage, @book %>
