@@ -6,6 +6,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :name, presence: true
-  has_many :posts, dependent: :destroy # 정말 이렇게 해야 하는거야?
+
+  has_many :posts, dependent: :destroy
+  # 정말 이렇게 해야 하는거야? 사용자가 삭제되도 post는 남겨야 함...
+  # 하지만 db에 빈 공간으로 놔둘 순 없음!
+
+  has_many :user_groups
+  has_many :groups, through: :user_groups
 
 end

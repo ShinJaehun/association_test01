@@ -18,6 +18,8 @@ class Ability
       #이거 오류 찾느라고 힘드렀짜나!
       can :manage, Message
 
+      can :manage, Group
+
       can :update, User, id: user.id
 
     end

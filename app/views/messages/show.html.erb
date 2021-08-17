@@ -1,8 +1,10 @@
-<p id="notice"><%= notice %></p>
+<!-- 사용 안함 : messages 보다는 post로 처리해야 할 듯... -->
+<!--
+<p id="notice"><%#= notice %></p>
 
-<% @message.images.each do |image| %>
-  <%= image_tag(image) %>
-<% end %>
+<%# @message.images.each do |image| %>
+  <%#= image_tag(image) %>
+<%# end %>
 
 <table>
   <thead>
@@ -12,16 +14,18 @@
     </tr>
   </thead>
   <tbody>
-    <% @message.posts.each do |post| %>
+    <%# @message.posts.each do |post| %>
       <tr>
-        <td><%= post.user.name %></td>
-        <td><%= post.content %></td>
+        <td><%#= post.user.name %></td>
+        <td><%#= post.content %></td>
       </tr>
     </tbody>
-  <% end %>
+  <%# end %>
 </table>
 
-<% if can? :manage, @message %>
-  <%= link_to 'Edit', edit_message_path(@message) %> |
-<% end %>
-<%= link_to 'Back', messages_path %>
+<%# if can? :manage, @message %>
+  <%#= link_to 'Edit', edit_message_path(@message) %> |
+<%# end %>
+<%#= link_to 'Back', messages_path %>
+
+-->

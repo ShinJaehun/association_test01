@@ -12,6 +12,12 @@
   </head>
 
   <body>
+
+    <% flash.each do |type, msg| %>
+      <div class="alert alert-infl">
+        <%= msg %>
+      </div>
+    <% end %>
     <% if user_signed_in? %>
       <span>
          <%= link_to current_user.name, current_user %>

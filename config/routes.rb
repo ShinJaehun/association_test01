@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   end
 
   resources :users, only:[:show]
+  resources :groups
 
   root 'posts#index'
+  post 'add_user_to_group/:id', to: 'groups#add_user_to_group', as: 'add_user_to_group'
+  delete 'remove_user_from_group/:id', to: 'groups#remove_user_from_group', as: 'remove_user_from_group'
 end
