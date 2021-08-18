@@ -36,16 +36,25 @@ class MessagesController < ApplicationController
       # https://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html
       post.user_id = current_user.id
 
-      if post.save
-        flash[:success] = '글을 남겼습니다.'
-        redirect_to root_path
+      post.save
+
+      if params[:type] == 'user'
+        post_recipient_user = PostRecipientUser.new
+        post_recipient_user.recipient_user_id = params[:receiver_id]
+        post_recipient_user.post_id = post.id
+        post_recipient_user.save
+      elsif params[:type] == 'group'
+        post_recipient_group = PostRecipientGroup.new
+        post_recipient_group.recipient_group_id = params[:receiver_id]
+        post_recipient_group.post_id = post.id
+        post_recipient_group.save
       else
-        flash[:alert] = '글을 남길 수 없어요.'
-        redirect_back(fallback_location: new_message_url)
+        puts '이 포스트의 대상은 사용자도 아니고 그룹도 아녀'
       end
+
+      redirect_to root_path, notice: '글을 남겼습니다.'
     else
-      flash[:alert] = '정상적인 이미지 파일이 아니네요?'
-      redirect_to root_path
+      redirect_to root_path, '정상적인 이미지 파일이 아니네요?'
     end
   end
 

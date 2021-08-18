@@ -2,6 +2,8 @@ class Group < ApplicationRecord
   has_many :user_groups
   has_many :users, through: :user_groups
 
+  has_many :post_recipient_groups, foreign_key: :recipient_group_id
+
   validates :name, presence: true, uniqueness: true
 
   def join_user_by_creating

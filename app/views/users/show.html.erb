@@ -14,7 +14,7 @@
   <tbody>
     <% @posts.each do |post| %>
       <tr>
-        <td><%= post.user.email %></td>
+        <td><%= post.user.name %></td>
         <td><%= post.content %></td>
         <td><%= link_to 'Show', post %></td>
 
@@ -34,3 +34,16 @@
 <%= link_to 'Edit User', edit_user_registration_path %>
 <% end %>
 
+
+<%= form_with model: Message.new do |form| %>
+  <%= hidden_field_tag :type, 'user' %>
+  <%= hidden_field_tag :receiver_id, @user.id %>
+
+  <%= form.file_field :images, multiple: true %>
+  <%= form.fields_for :post, Post.new do |post_form| %>
+    <%= post_form.text_area :content %>
+  <% end %>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

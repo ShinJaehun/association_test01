@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_17_045519) do
+ActiveRecord::Schema.define(version: 2021_08_17_072707) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -60,6 +60,24 @@ ActiveRecord::Schema.define(version: 2021_08_17_045519) do
   create_table "messages", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "post_recipient_groups", force: :cascade do |t|
+    t.integer "recipient_group_id"
+    t.integer "post_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["post_id"], name: "index_post_recipient_groups_on_post_id"
+    t.index ["recipient_group_id"], name: "index_post_recipient_groups_on_recipient_group_id"
+  end
+
+  create_table "post_recipient_users", force: :cascade do |t|
+    t.integer "recipient_user_id"
+    t.integer "post_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["post_id"], name: "index_post_recipient_users_on_post_id"
+    t.index ["recipient_user_id"], name: "index_post_recipient_users_on_recipient_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
