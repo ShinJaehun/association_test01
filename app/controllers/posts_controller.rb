@@ -40,20 +40,6 @@ class PostsController < ApplicationController
     @post.user = current_user
     @post.save
 
-    if params[:type] == 'user'
-      post_recipient_user = PostRecipientUser.new
-      post_recipient_user.recipient_user_id = params[:receiver_id]
-      post_recipient_user.post_id = @post.id
-      post_recipient_user.save
-    elsif params[:type] == 'group'
-      post_recipient_group = PostRecipientGroup.new
-      post_recipient_group.recipient_user_id = params[:receiver_id]
-      post_recipient_group.post_id = @post.id
-      post_recipient_grour.save
-    else
-      puts '이 포스트의 대상은 사용자도 아니고 그룹도 아녀'
-    end
-
     redirect_to @postable, notice: "Your post was successfully posted."
   end
 

@@ -1,6 +1,8 @@
 class GroupsController < ApplicationController
   #before_action :set_group, only: %i[ show edit update destroy ]
   before_action :set_group, except: %i[ index new create ]
+  before_action :authenticate_user!
+  load_and_authorize_resource except: %i[ index new create join_group leave_group ]
 
   # GET /groups or /groups.json
   def index
@@ -37,6 +39,9 @@ class GroupsController < ApplicationController
       usergroup.group_id = group.id
       usergroup.save
 
+      current_user.add_role :group_manager, group
+      current_user.add_role :group_member, group
+
       redirect_to group, notice: "Group was successfully created."
     end
   end
@@ -57,11 +62,17 @@ class GroupsController < ApplicationController
   # DELETE /groups/1 or /groups/1.json
   def destroy
     posts = Post.find(@group.post_recipient_groups.pluck(:post_id))
+
     unless posts.blank?
       posts.each do |post|
+        post.postable.destroy
         post.destroy
       end
     end
+
+    current_user.remove_role :group_member, @group
+    current_user.remove_role :group_manager, @group
+
     @group.destroy
     respond_to do |format|
       format.html { redirect_to groups_url, notice: "Group was successfully destroyed." }
@@ -69,21 +80,26 @@ class GroupsController < ApplicationController
     end
   end
 
-  def add_user_to_group
+  def join_group
     if UserGroup.where(user_id: current_user.id, group_id: @group.id).count <= 0
       usergroup = UserGroup.new
       usergroup.user_id = current_user.id
       usergroup.group_id = @group.id
       usergroup.save
-      redirect_to groups_path, notice: "You're already a member of #{@group.name}."
+
+      current_user.add_role :group_member, @group
+
+      redirect_to groups_path, notice: "You've been added to #{@group.name}."
     else
+      redirect_to groups_path, notice: "You're already a member of #{@group.name}."
     end
   end
 
-  def remove_user_from_group
+  def leave_group
+    current_user.remove_role :group_member, @group
     usergroup = current_user.user_groups.find_by_group_id(@group.id)
     usergroup.destroy
-    current_user.save!
+    current_user.save
     redirect_to groups_path, notice: "You're no longer a member of #{@group.name}."
   end
 

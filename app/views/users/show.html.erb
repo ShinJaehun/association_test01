@@ -17,7 +17,6 @@
         <td><%= link_to post.user.name, post.user %></td>
         <td><%= post.content %></td>
         <td><%= link_to 'Show', post %></td>
-
         <%# if post.user == current_user %>
         <% if can? :manage, post %>
           <td><%= link_to 'Edit', edit_post_path(post) %></td>

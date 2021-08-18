@@ -20,8 +20,8 @@ class MessagesController < ApplicationController
     puts message_params
     puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 
-    @message = Message.create(images: message_params[:images])
-    if @message.valid?
+    message = Message.create(images: message_params[:images])
+    if message.valid?
       #post = @message.posts.new(content: message_params[:posts_attributes]['0'][:content])
       # has_many일 때
       #post = @message.post.new(content: message_params[:post_attributes][:content])
@@ -31,7 +31,7 @@ class MessagesController < ApplicationController
       #post.postable_type = 'Message'
       #post.postable_id = @message.id
 
-      post = @message.build_post(content: message_params[:post_attributes][:content])
+      post = message.build_post(content: message_params[:post_attributes][:content])
       # 헐... auto-generated-methods 이거 참조....
       # https://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html
       post.user_id = current_user.id
@@ -39,21 +39,29 @@ class MessagesController < ApplicationController
       post.save
 
       if params[:type] == 'user'
+
         post_recipient_user = PostRecipientUser.new
         post_recipient_user.recipient_user_id = params[:receiver_id]
         post_recipient_user.post_id = post.id
         post_recipient_user.save
+        redirect_back(fallback_location: root_path, flash:{notice: '글을 작성했습니다.'})
+
       elsif params[:type] == 'group'
-        post_recipient_group = PostRecipientGroup.new
-        post_recipient_group.recipient_group_id = params[:receiver_id]
-        post_recipient_group.post_id = post.id
-        post_recipient_group.save
+
+        if current_user.has_role? :group_member, Group.find(params[:receiver_id])
+          post_recipient_group = PostRecipientGroup.new
+          post_recipient_group.recipient_group_id = params[:receiver_id]
+          post_recipient_group.post_id = post.id
+          post_recipient_group.save
+          redirect_back(fallback_location: root_path, flash:{notice: '그룹에 글을 남겼습니다.'})
+        else
+          redirect_back(fallback_location: root_path, flash:{notice: '그룹에 글을 남길 권한 없음.'})
+        end
+
       else
-        puts '이 포스트의 대상은 사용자도 아니고 그룹도 아녀'
+        redirect_back(fallback_location: root_path, flash:{notice: '이 포스트의 대상은 사용자도 아니고 그룹도 아녀!'})
       end
 
-      #redirect_to root_path, notice: '글을 남겼습니다.'
-      redirect_back(fallback_location: root_path)
     else
       redirect_to root_path, '정상적인 이미지 파일이 아니네요?'
     end
