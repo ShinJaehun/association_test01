@@ -5,6 +5,8 @@ class GroupsController < ApplicationController
   # GET /groups or /groups.json
   def index
     @groups = Group.all
+    #@groups = current_user.groups
+    #지금은 테스트를 위해서...
   end
 
   # GET /groups/1 or /groups/1.json
@@ -54,6 +56,12 @@ class GroupsController < ApplicationController
 
   # DELETE /groups/1 or /groups/1.json
   def destroy
+    posts = Post.find(@group.post_recipient_groups.pluck(:post_id))
+    unless posts.blank?
+      posts.each do |post|
+        post.destroy
+      end
+    end
     @group.destroy
     respond_to do |format|
       format.html { redirect_to groups_url, notice: "Group was successfully destroyed." }

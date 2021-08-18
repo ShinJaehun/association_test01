@@ -52,7 +52,8 @@ class MessagesController < ApplicationController
         puts '이 포스트의 대상은 사용자도 아니고 그룹도 아녀'
       end
 
-      redirect_to root_path, notice: '글을 남겼습니다.'
+      #redirect_to root_path, notice: '글을 남겼습니다.'
+      redirect_back(fallback_location: root_path)
     else
       redirect_to root_path, '정상적인 이미지 파일이 아니네요?'
     end

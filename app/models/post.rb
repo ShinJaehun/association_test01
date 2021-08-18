@@ -6,7 +6,7 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :postable, polymorphic: true
 
-  has_many :post_recipient_users
-  has_many :post_recipient_groups
+  has_many :post_recipient_users, dependent: :destroy
+  has_many :post_recipient_groups, dependent: :destroy
 
 end

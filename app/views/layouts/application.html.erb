@@ -21,9 +21,9 @@
       </div>
     <% end %>
     <% if user_signed_in? %>
-      <span>
+      <h1>
          <%= link_to current_user.name, current_user %>
-      </span>
+      </h1>
       <%= link_to '사용자 정보수정', edit_user_registration_path %>
       <%= link_to :로그아웃, destroy_user_session_path, method: :delete %>
     <% else %>

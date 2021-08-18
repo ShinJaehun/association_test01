@@ -16,7 +16,7 @@
   <tbody>
     <% @posts.each do |post| %>
       <tr>
-        <td><%= post.user.name %></td>
+        <td><%= link_to post.user.name, post.user %></td>
         <td><%= post.postable_type %></td>
 
         <% if post.postable_type == 'Book' %>
@@ -63,6 +63,19 @@
   <!-- create로 하니까 한 방에 넘어가네ㅠㅠ -->
   <!-- 근데 여기서 넘겨도 결국 post controller에서 redirection할 곳이 달라지기 때문에 하나로 통일할 이유가 없음 -->
 
-  <%= render partial: "messages/form", locals: { postable: Message.new } %>
+  <%#= render partial: "messages/form", locals: { postable: Message.new } %>
   <!-- 결국 모든 문제는 form 때문이었음... -->
+  <%= form_with model: Message.new do |form| %>
+    <!-- 자기 자신한테 남기는 글 -->
+    <%= hidden_field_tag :type, 'user' %>
+    <%= hidden_field_tag :receiver_id, current_user.id %>
+
+    <%= form.file_field :images, multiple: true %>
+    <%= form.fields_for :post, Post.new do |post_form| %>
+      <%= post_form.text_area :content %>
+    <% end %>
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>
 </p>
