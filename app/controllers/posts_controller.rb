@@ -45,14 +45,16 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: "Post was successfully updated." }
-        format.json { render :show, status: :ok, location: @post }
+    if @post.update(post_params)
+      # Post와 Group은 many to many가 아니라서 좀 복잡하지만 이렇게 써야 함.
+      if PostRecipientGroup.find_by_post_id(@post.id).present?
+        redirect_to group_path(PostRecipientGroup.find_by_post_id(@post.id).recipient_group_id), notice: "글을 수정했습니다."
+        # find_by는 하나만 return한다(LIMIT = 1) @post에 해당하는 group을 return해야 함
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        redirect_to @post, notice: '글을 수정했습니다.'
       end
+    else
+      redirect_to root_path, notice: '수정 실패!'
     end
   end
 
@@ -64,10 +66,9 @@ class PostsController < ApplicationController
       @post.postable.destroy
     end
     @post.destroy
-    respond_to do |format|
-      format.html { redirect_to posts_url, notice: "Post was successfully destroyed." }
-      format.json { head :no_content }
-    end
+
+    redirect_back(fallback_location: root_path, flash:{notice: '글을 삭제했습니다.'})
+
   end
 
   private
