@@ -50,7 +50,29 @@ class BooksController < ApplicationController
     # current_user.id로 해도 상관 없는거 아니?
     post.save
 
-    redirect_to root_path
+    if params[:type] == 'user'
+
+      post_recipient_user = PostRecipientUser.new
+      post_recipient_user.recipient_user_id = params[:receiver_id]
+      post_recipient_user.post_id = post.id
+      post_recipient_user.save
+      redirect_to root_path, flash:{notice: '글을 작성했습니다.'}
+
+    elsif params[:type] == 'group'
+
+      if current_user.has_role? :group_member, Group.find(params[:receiver_id])
+        post_recipient_group = PostRecipientGroup.new
+        post_recipient_group.recipient_group_id = params[:receiver_id]
+        post_recipient_group.post_id = post.id
+        post_recipient_group.save
+        redirect_to root_path, flash:{notice: '그룹에 글을 남겼습니다.'}
+      else
+        redirect_to root_path, flash:{notice: '그룹에 글을 남길 권한 없음.'}
+      end
+
+    else
+      redirect_to root_path, flash:{notice: '이 포스트의 대상은 사용자도 아니고 그룹도 아녀!'}
+    end
   end
 
   def update

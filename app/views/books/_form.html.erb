@@ -1,4 +1,7 @@
 <%= form_for(@book) do |form| %>
+  <%= hidden_field_tag :type, 'user' %>
+  <%= hidden_field_tag :receiver_id, current_user.id %>
+
   <div class="field">
     <%= form.label :title %>
     <%= form.text_field :title %>

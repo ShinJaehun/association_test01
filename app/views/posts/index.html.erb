@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>User</th>
+      <th>Group/User</th>
       <th>Postable Type</th>
       <th>Postable</th>
       <th>Content</th>
@@ -17,6 +18,15 @@
     <% @posts.each do |post| %>
       <tr>
         <td><%= link_to post.user.name, post.user %></td>
+
+        <% if post.post_recipient_users.ids.present? %>
+          <td>RU</td>
+        <% elsif post.post_recipient_groups.ids.present? %>
+          <td>RG</td>
+        <% else %>
+          <td>none</td>
+        <% end %>
+
         <td><%= post.postable_type %></td>
 
         <% if post.postable_type == 'Book' %>
