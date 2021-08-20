@@ -20,14 +20,13 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
-    # books/posts_controller.rb에 set_postable이 before_action 이니까 여기서 @postable 쓸 수 있는거 아닌가?
-    #@postable
-    puts 'posts_controller/edit@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2'
-    puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
-    puts params
-    puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
-    @type = params[:type]
-    @receiver_id = params[:receiver_id]
+    # 일단 link_to로 어떻게 param 넘기는지 알았으니까...
+#    puts 'posts_controller/edit@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2'
+#    puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+#    puts params
+#    puts '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+#    @type = params[:type]
+#    @receiver_id = params[:receiver_id]
   end
 
   # POST /posts or /posts.json
@@ -76,19 +75,24 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
     if @post.update(post_params)
-      # Post와 Group은 many to many가 아니라서 좀 복잡하지만 이렇게 써야 함.
-      @type = params[:type]
-      @receiver_id = params[:receiver_id]
+      # 그룹인 경우 해당 그룹으로 redirect하기
 
-      puts '@type: ' + @type
-      puts '@receiver_id: ' + @reciever_id.to_s
+      # link_to로 group을 param으로 받아서 처리해봤는데 넘 복잡함
+      #@type = params[:type]
+      #@receiver_id = params[:receiver_id]
 
-      if @type == 'group' && @receiver_id.present?
-        #redirect_to group_path(Group.find(@receiver_id))
-        redirect_to group_path(@receiver_id)
+      #puts '@type: ' + @type
+      #puts '@receiver_id: ' + @reciever_id.to_s
+
+      #if @type == 'group' && @receiver_id.present?
+        #redirect_to group_path(@receiver_id)
         # 야... 근데 redirect 하긴 했는데 꼭 이런 식으로 해야 하는거야?
         # link_to에 param을 붙여서 edit과 update에서 param을 받아오는 식으로 구현함...ㅠㅠ
 
+      if PostRecipientGroup.find_by_post_id(@post.id).present?
+      # Post와 Group은 many to many가 아니라서 좀 복잡하지만 이렇게 써야 함.
+        redirect_to group_path(PostRecipientGroup.find_by_post_id(@post.id).recipient_group_id), notice: "글을 수정했습니다."
+        # find_by는 하나만 return한다(LIMIT = 1) @post에 해당하는 group을 return해야 함
       else
         redirect_to @post, notice: '수정 후 redirect 실패'
       end

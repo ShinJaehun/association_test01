@@ -93,7 +93,9 @@
         <td><%= post.content %></td>
         <td>by <%= post.user.name %></td>
         <% if current_user.has_role? :group_manager, @group or can? :manage, post %>
-          <td><%= link_to 'Edit', edit_post_path(post, type: 'group', receiver_id: @group.id) %></td>
+          <!--<td><%#= link_to 'Edit', edit_post_path(post, type: 'group', receiver_id: @group.id) %></td>-->
+          <!-- 일단 link_to로 param 어떻게 넘기는지 알았으니까 -->
+          <td><%= link_to 'Edit', edit_post_path(post) %></td>
           <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
       </tr>
